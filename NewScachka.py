@@ -8,6 +8,7 @@ import random
 from moviepy.editor import VideoFileClip, CompositeVideoClip, TextClip
 from moviepy.video.fx.all import colorx
 from moviepy.audio.fx.all import audio_fadein, audio_fadeout
+from PIL import Image  # Импортируем Image из Pillow
 
 def clear_directory(folder_name):
     """ Удаляет все файлы в указанной папке. """
@@ -20,8 +21,9 @@ def clear_directory(folder_name):
 def ensure_folder_exists(folder_name):
     if not os.path.exists(folder_name):
         os.mkdir(folder_name)
-    #clear_directory(folder_name)  # Очищаем папку перед созданием новой
-    print(f"Folder '{folder_name}' created")
+    else:
+        clear_directory(folder_name)  # Очищаем папку перед загрузкой
+    print(f"Folder '{folder_name}' ready")
 
 def download(link):
     headers = {
@@ -65,7 +67,7 @@ def download(link):
 
     except Exception as e:
         print(f"Error downloading {link}: {e}")
-        
+
 def remove_metadata_and_uniquify(directory='video'):
     for filename in os.listdir(directory):
         if filename.lower().endswith(('.mp4', '.avi', '.mov', '.mkv', '.flv')):
